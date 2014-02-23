@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  customer: MyString
+  total_price: 1.5
+  state: MyString
+  completed_at: 2013-12-27 15:33:22
+  bill_address: MyString
+  ship_address: MyString
+
+two:
+  customer: MyString
+  total_price: 1.5
+  state: MyString
+  completed_at: 2013-12-27 15:33:22
+  bill_address: MyString
+  ship_address: MyString

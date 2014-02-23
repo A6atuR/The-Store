@@ -1,0 +1,24 @@
+.container
+  = link_to "Home", books_path
+  = link_to "Shop", categories_path
+  .links
+    = link_to "Shopping Cart", shopping_cart_path
+    = link_to "Orders", orders_path
+    = link_to "Settings", edit_customer_registration_path
+    = link_to "Sign out", destroy_customer_session_path, method: :delete
+  %h2 Categories - #{@category.title}
+  .books_container
+    - @books.each do |book|
+      .book
+        %p
+          = image_tag(book.image, size: "200x150")
+        %p
+          = link_to book.title, category_book_path(book.category, book)
+        %strong
+          $ #{book.price}
+  %h4 Shop by Categories
+  - @categories.each do |category|
+    %p
+      = link_to category.title, category_path(category)
+  .books_pages  
+    = paginate @books

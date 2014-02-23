@@ -1,0 +1,25 @@
+.container
+  = link_to "Home", books_path
+  = link_to "Shop", categories_path
+  .links
+    = link_to "Shopping Cart", shopping_cart_path
+    = link_to "Orders", orders_path
+    = link_to "Settings", edit_customer_registration_path
+    = link_to "Sign out", destroy_customer_session_path, method: :delete
+  %h3 Checkout
+  %h3 CREDIT CARD
+  = form_for @credit_card, url: credit_card_path, method: :patch do |f|
+    %p
+      = f.label :card_number
+      = f.text_field :number
+    %p
+      = f.label :cvv
+      = f.text_field :cvv
+    %p
+      = f.label :expiration_month
+      = f.text_field :expiration_month
+    %p
+      = f.label :expiration_year
+      = f.text_field :expiration_year
+    %p
+      = f.submit "Save and Continue"
