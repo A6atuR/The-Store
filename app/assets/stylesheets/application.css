@@ -11,3 +11,60 @@
  *= require_self
  *= require_tree .
  */
+
+div#myCarousel {
+  width: 900px;
+  margin: 40px auto;
+  padding: 0 70px;
+}
+
+img.image {
+  float: left;
+  padding: 10px 10px 10px 0px;
+}
+
+div.devise_form {
+  margin: 0px auto;
+  width: 250px;
+}
+
+div.links {
+  float: right;
+}
+
+div.book {
+  float: left;
+  padding-right: 70px;
+  padding-bottom: 40px;
+}
+
+div.books_container {
+  float: left;
+  width: 900px;
+}
+
+div.books_pages {
+  width: 250px;
+  margin: 0 auto;
+}
+
+td.col_title {
+  width: 200px;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+td.col_table {
+  width: 100px;
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+div.subtotal {
+  float: right;
+}
+
+div.confirm_info {
+  float: left;
+  padding-right: 150px;
+}

@@ -1,4 +1,22 @@
 Amazon::Application.routes.draw do
+  devise_for :customers
+  devise_for :admins
+  mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
+  root "books#main"
+  resources :categories do
+    resources :books do
+      post 'rating'
+    end
+  end
+  resources :orders do
+    get 'confirm'
+    resources :order_items
+  end
+  resources :addresses
+  resources :credit_cards
+  get 'shopping_cart', to: 'orders#shopping_cart'
+  get 'books', to: 'books#main'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
