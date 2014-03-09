@@ -2,6 +2,13 @@ source 'https://rubygems.org'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.0.1'
+gem 'rails_admin'
+gem 'carrierwave'
+gem "twitter-bootstrap-rails"
+gem 'haml'
+gem 'kaminari'
+gem 'state_machine'
+gem "cancan"
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -43,3 +50,16 @@ end
 
 # Use debugger
 # gem 'debugger', group: [:development, :test]
+group :development, :test do
+  gem 'faker'
+  gem 'rspec-rails'
+  gem 'factory_girl_rails'
+end
+ 
+group :test do
+  gem 'database_cleaner'
+  gem 'shoulda-matchers'
+  gem 'capybara'
+end
+
+gem "devise"

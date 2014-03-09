@@ -1,0 +1,38 @@
+.container
+  = link_to "Home", books_path
+  = link_to "Shop", categories_path
+  .links
+    = link_to "Shopping Cart", shopping_cart_path
+    = link_to "Orders", orders_path
+    = link_to "Settings", edit_customer_registration_path
+    = link_to "Sign out", destroy_customer_session_path, method: :delete
+  %h3= @book.title
+  %p
+    = image_tag(@book.image, size: "200x150", class: "image")
+    = @book.description
+  %h4 $ #{@book.price}
+  = form_for @order_item, url: order_order_items_path(@order) do |f|
+    %p
+      = f.text_field :quantity
+      = f.hidden_field :book_id, value: @book.id
+    %p
+      = f.submit "Add to Cart"
+  %h3 Reviews
+  = form_for @rating, url: book_ratings_path(@book) do |f|
+    = f.hidden_field :book_id, value: @book.id
+    %p
+      = f.label :rating
+      = f.text_field :rating
+    %p
+      = f.label :review
+      = f.text_area :text
+    %p
+      = f.submit "Add Review"
+  - @ratings.each do |rating|
+    %p
+      Rating: #{rating.rating} by #{rating.customer.email}
+    %p
+      = rating.created_at
+    %p
+      = rating.text
+    %br

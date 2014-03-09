@@ -1,0 +1,25 @@
+.container
+  = link_to "Home", books_path
+  = link_to "Shop", categories_path
+  .links
+    = link_to "Shopping Cart", shopping_cart_path
+    = link_to "Orders", orders_path
+    = link_to "Settings", edit_customer_registration_path
+    = link_to "Sign out", destroy_customer_session_path, method: :delete
+  %h3 Checkout
+  %h3 ADDRESS
+  = form_for @address, url: addresses_path do |f|
+    %p
+      = f.label :street_address
+      = f.text_field :address
+    %p
+      = f.label :city
+      = f.text_field :city
+    %p
+      = f.label :zip_code
+      = f.text_field :zip_code
+    %p
+      = f.label :phone
+      = f.text_field :phone
+    %p
+      = f.submit "Save and Continue"

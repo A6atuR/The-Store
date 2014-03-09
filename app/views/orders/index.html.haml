@@ -1,0 +1,63 @@
+.container
+  = link_to "Home", books_path
+  = link_to "Shop", categories_path
+  .links
+    = link_to "Shopping Cart", shopping_cart_path
+    = link_to "Orders", orders_path
+    = link_to "Settings", edit_customer_registration_path
+    = link_to "Sign out", destroy_customer_session_path, method: :delete
+  %h3 Orders
+  %h4 IN PROGRESS
+  %table
+    %tr
+      %th Image
+      %th Book title
+      %th Price
+      %th Quantity
+      %th Total
+    - @orders.in_progress.first.order_items.each do |order_item|
+      %tr
+        %td= image_tag(order_item.book.image, size: "100x75", class: "image")
+        %td.col_title= order_item.book.title
+        %td.col_table $ #{order_item.book.price}
+        %td.col_table= order_item.quantity
+        %td.col_table $ #{order_item.price}
+  .subtotal    
+    %strong SUBTOTAL: $ #{@orders.in_progress.first.total_price}
+  = button_to "Go to Cart", shopping_cart_path, method: :get
+  %h4 IN QUEUE
+  %table
+    %tr
+      %th Number
+      %th Completed at
+      %th Total
+    - @orders.in_queue.each do |order|
+      %tr
+        %td.col_title= order.id
+        %td.col_table= order.completed_at
+        %td.col_table $ #{order.total_price}
+        %td.col_table= link_to "View", order_path(order), class: 'link', method: :get
+  %h4 IN DELIVERY
+  %table
+    %tr
+      %th Number
+      %th Completed at
+      %th Total
+    - @orders.in_delivery.each do |order|
+      %tr
+        %td.col_title= order.id
+        %td.col_table= order.completed_at
+        %td.col_table $ #{order.total_price}
+        %td.col_table= link_to "View", order_path(order), method: :get
+  %h4 DELIVERED
+  %table
+    %tr
+      %th Number
+      %th Completed at
+      %th Total
+    - @orders.delivered.each do |order|
+      %tr
+        %td.col_title= order.id
+        %td.col_table= order.completed_at
+        %td.col_table $ #{order.total_price}
+        %td.col_table= link_to "View", order_path(order), method: :get

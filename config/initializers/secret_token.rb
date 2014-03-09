@@ -9,4 +9,4 @@
 
 # Make sure your secret_key_base is kept private
 # if you're sharing your code publicly.
-Amazon::Application.config.secret_key_base = '1919893b30b0afdf635c0e619742b09dea3f8bd5e4fa93955a8df793af5927e398e5127bb81b8d54984e9ad2aaee95e9b1374e8c447ed9b535b1a1887e5301f7'
+Amazon::Application.config.secret_key_base = '46f7fd654911160998bbbbc4aff2d012f2b1bdf509e3edbf3f092686e79b1f4d3cb9636d4996c4792e3beecc1c52470baeae3f5a161239878dbe9f8c43ee8e26'
