@@ -21,7 +21,7 @@
         %td.col_table $ #{order_item.book.price}
         %td.col_table= order_item.quantity
         %td.col_table $ #{order_item.price}
-        %td.col_table= link_to 'Remove', order_order_item_path(order_item.order, order_item), method: :delete
+        %td.col_table= link_to 'Remove', order_order_item_path(order_item.order, order_item), method: :delete, class: "link"
   .subtotal    
     %strong SUBTOTAL: $ #{@order.total_price}
     %p 

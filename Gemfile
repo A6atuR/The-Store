@@ -7,6 +7,8 @@ gem 'carrierwave'
 gem "twitter-bootstrap-rails"
 gem 'haml'
 gem 'kaminari'
+gem 'state_machine'
+gem "cancan"
 
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
@@ -57,7 +59,7 @@ end
 group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
-  gem 'factory_girl_rails'
+  gem 'capybara'
 end
 
 gem "devise"

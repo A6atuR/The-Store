@@ -18,7 +18,7 @@
     %p
       = f.submit "Add to Cart"
   %h3 Reviews
-  = form_for @rating, url: category_book_rating_path(@book.category, @book) do |f|
+  = form_for @rating, url: book_ratings_path(@book) do |f|
     = f.hidden_field :book_id, value: @book.id
     %p
       = f.label :rating

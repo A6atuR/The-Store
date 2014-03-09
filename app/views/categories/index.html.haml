@@ -13,7 +13,7 @@
         %p
           = image_tag(book.image, size: "200x150")
         %p
-          = link_to book.title, category_book_path(book.category, book)
+          = link_to book.title, book_path(book)
         %strong
           $ #{book.price}
   %h4 Shop by Categories

@@ -1,4 +1,6 @@
 class CategoriesController < ApplicationController
+  authorize_resource
+  
   def index
     @categories = Category.all
     @books = Book.page params[:page]

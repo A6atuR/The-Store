@@ -3,10 +3,16 @@ class Order < ActiveRecord::Base
   belongs_to :customer
   belongs_to :address
   belongs_to :credit_card
-  # validates :total_price, :state, :completed_at, presence: true
-  # validates :total_price, numericality: { greater_then: 0 }
-  def state_enum
-    [['in_progress'],['in_queue'],['in_delivery'],['delivered']]
+
+  state_machine :state, :initial => :in_progress do
+    state :in_progress
+    state :in_queue
+    state :in_delivery
+    state :delivered
+  end
+
+  state_machine.states.map do |state|
+    scope state.name, lambda { where(state: state.name.to_s) }
   end
 
   def total_price

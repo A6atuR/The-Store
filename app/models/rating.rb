@@ -3,8 +3,10 @@ class Rating < ActiveRecord::Base
   belongs_to :customer
   validates_inclusion_of :rating, in: 1..10
 
-  def status_enum
-    [['not viewed'],['approved'],['rejected']]
+  state_machine :status, :initial => :not_viewed do
+    state :not_viewed
+    state :approved
+    state :rejected
   end
 
   rails_admin do

@@ -7,9 +7,11 @@ class Customer < ActiveRecord::Base
   has_many :ratings
   has_many :orders
   has_many :credit_cards
-  # validates :email, :password, :first_name, :last_name, presence: true
   validates :password, length: { in: 8..15 }
-  # validates :email, :first_name, :last_name, uniqueness: true
+
+  def current_order
+    orders.find_by status: "shopping_cart"
+  end
 
   private
 

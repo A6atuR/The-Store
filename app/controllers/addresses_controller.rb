@@ -1,10 +1,12 @@
 class AddressesController < ApplicationController
+  authorize_resource
+  
   def new
     @address = Address.new 
   end
 
   def create
-    @order = current_customer.orders.find_by status: "shopping_cart"
+    @order = current_customer.current_order
     @address = Address.new(address_params)
     if @address.save
       @order.update_attribute(:address_id, @address.id)
@@ -19,7 +21,7 @@ class AddressesController < ApplicationController
   end
 
   def update
-    @order = current_customer.orders.find_by status: "shopping_cart"
+    @order = current_customer.current_order
     @address = Address.find(params[:id])
     @address.update(address_params)
     if @address.save

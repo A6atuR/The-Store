@@ -16,6 +16,7 @@ RSpec.configure do |config|
   # Use color in STDOUT
   config.color_enabled = true
   config.include FactoryGirl::Syntax::Methods
+  config.include Devise::TestHelpers, :type => :controller
   # Use color not only in STDOUT but also in pagers and files
   config.tty = true
 

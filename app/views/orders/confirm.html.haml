@@ -10,17 +10,17 @@
   %h3 CONFIRM
   .confirm_info
     %strong Address 
-    = link_to "Edit", edit_address_path(@order.address)
-    %p= @order.address.address
-    %p= @order.address.city
-    %p= @order.address.zip_code
-    %p= @order.address.phone
+    = link_to "Edit", edit_address_path(@address)
+    %p= @address.address
+    %p= @address.city
+    %p= @address.zip_code
+    %p= @address.phone
   .confirm_info
     %strong Payment Information
-    = link_to "Edit", edit_credit_card_path(@order.credit_card)
-    %p**** **** **** #{@order.credit_card.cvv}
-    %p= @order.credit_card.expiration_month
-    %p= @order.credit_card.expiration_year
+    = link_to "Edit", edit_credit_card_path(@credit_card)
+    %p**** **** **** #{@credit_card.cvv}
+    %p= @credit_card.expiration_month
+    %p= @credit_card.expiration_year
   %table
     %tr
       %th Image
