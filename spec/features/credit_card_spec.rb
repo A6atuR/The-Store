@@ -2,8 +2,8 @@ require 'features/features_spec_helper'
  
 feature "Credit Card" do
   let(:customer) { create(:customer) }
-  let(:address) { create(:address) }
-  let(:credit_card) { create(:credit_card) }
+  let(:address) { create(:address, customer_id: customer.id) }
+  let(:credit_card) { create(:credit_card, customer_id: customer.id) }
   let(:order) { customer.orders.first }
   
   before do

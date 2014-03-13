@@ -1,12 +1,12 @@
 .container
-  = link_to "Home", books_path
-  = link_to "Shop", categories_path
+  = link_to t('links.home'), books_path
+  = link_to t('links.shop'), categories_path
   .links
-    = link_to "Shopping Cart", shopping_cart_path
-    = link_to "Orders", orders_path
-    = link_to "Settings", edit_customer_registration_path
-    = link_to "Sign out", destroy_customer_session_path, method: :delete
-  %h2 Shop
+    = link_to t('links.shopping_cart'), shopping_cart_path
+    = link_to t('links.orders'), orders_path
+    = link_to t('links.settings'), edit_customer_registration_path
+    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+  %h2=t('categories.shop')
   .books_container
     - @books.each do |book|
       .book
@@ -16,7 +16,7 @@
           = link_to book.title, book_path(book)
         %strong
           $ #{book.price}
-  %h4 Shop by Categories
+  %h4=t('categories.shop_by_categories')
   - @categories.each do |category|
     %p
       = link_to category.title, category_path(category)

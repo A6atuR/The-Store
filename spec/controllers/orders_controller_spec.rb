@@ -1,11 +1,11 @@
 require 'spec_helper'
 
 describe OrdersController do
-  let(:customer) { stub_model(Customer, current_order: order) }
-  let(:order) { create(:order) }
+  let(:order) { @customer.orders.first }
 
   before (:each) do
-    allow(controller).to receive(:current_customer) { customer }
+    @customer = create(:customer)
+    allow(controller).to receive(:current_customer) { @customer }
   end
 
   describe "GET #index" do
@@ -61,7 +61,7 @@ describe OrdersController do
   end
 
   describe "PATCH update" do 
-    it "redirects to the orders_path if order is valid" do
+    it "redirects to the orders_path if order is valid and belongs to current_customer" do
       patch :update, id: order.id, order: attributes_for(:order) 
       response.should redirect_to orders_path 
     end

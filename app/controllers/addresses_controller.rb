@@ -1,5 +1,6 @@
 class AddressesController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
+  skip_load_resource :only => [:create]
   
   def new
     @address = Address.new 
@@ -7,7 +8,7 @@ class AddressesController < ApplicationController
 
   def create
     @order = current_customer.current_order
-    @address = Address.new(address_params)
+    @address = current_customer.addresses.new(address_params)
     if @address.save
       @order.update_attribute(:address_id, @address.id)
       redirect_to new_credit_card_path
@@ -23,8 +24,7 @@ class AddressesController < ApplicationController
   def update
     @order = current_customer.current_order
     @address = Address.find(params[:id])
-    @address.update(address_params)
-    if @address.save
+    if @address.update(address_params)
       redirect_to order_confirm_path(@order)
     else
       render 'edit'

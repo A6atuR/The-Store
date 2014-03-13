@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.1'
 gem 'rails_admin'
 gem 'carrierwave'
+gem "mini_magick"
 gem "twitter-bootstrap-rails"
 gem 'haml'
 gem 'kaminari'

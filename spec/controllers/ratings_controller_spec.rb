@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe RatingsController do
   describe "POST create" do 
-    let(:customer) { stub_model(Customer) }
+    let(:customer) { stub_model(Customer, current_order: order) }
+    let(:order) { create(:order) }
 
     before (:each) do
       allow(controller).to receive(:current_customer) { customer }

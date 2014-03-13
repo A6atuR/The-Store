@@ -2,7 +2,7 @@ require 'features/features_spec_helper'
  
 feature "Address" do
   let(:customer) { create(:customer) }
-  let(:address) { create(:address) }
+  let(:address) { create(:address, customer_id: customer.id) }
   let(:credit_card) { create(:credit_card) }
   let(:order) { customer.orders.first }
   

@@ -16,16 +16,19 @@ describe AddressesController do
 
   describe "GET #edit" do
     before (:each) do
-      @address = create(:address)
+      @customer = create(:customer)
+      sign_in @customer
     end
 
-    it "responds successfully with an HTTP 200 status code" do
+    it "responds successfully with an HTTP 200 status code if this address belongs to current customer" do
+      @address = create(:address, customer_id: @customer.id)
       get :edit, id: @address.id
       expect(response).to be_success
       expect(response.status).to eq(200)
     end
 
-    it "renders the edit template" do
+    it "renders the edit template if this address belongs to current customer" do
+      @address = create(:address, customer_id: @customer.id)
       get :edit, id: @address.id
       expect(response).to render_template("edit")
     end
@@ -51,22 +54,21 @@ describe AddressesController do
   end
 
   describe "PATCH update" do 
-    let(:customer) { stub_model(Customer, current_order: order) }
-    let(:order) { create(:order, address_id: @address.id) }
-
     before (:each) do
-      allow(controller).to receive(:current_customer) { customer }
-      @address = create(:address)
-    end
-      
-    it "redirects to the order_confirm_path if address is valid" do
-      patch :update, id: @address.id, address: attributes_for(:address, address: "Street") 
-      response.should redirect_to order_confirm_path(order) 
+      @customer = create(:customer)
+      @order = @customer.orders.in_progress.first
+      allow(controller).to receive(:current_customer) { @customer }
+      @address = create(:address, customer_id: @customer.id)
     end
 
     it "re-renders the edit template if address is invalid" do
       patch :update, id: @address.id, address: attributes_for(:invalid_address) 
       response.should render_template :edit
+    end
+
+    it "redirects to the order_confirm_path if address is valid and belongs to current customer" do
+      patch :update, id: @address.id, address: attributes_for(:address, address: "Street", customer_id: @customer.id) 
+      response.should redirect_to order_confirm_path(@order) 
     end
   end
 end

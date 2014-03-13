@@ -1,20 +1,20 @@
 .container
-  = link_to "Home", books_path
-  = link_to "Shop", categories_path
+  = link_to t('links.home'), books_path
+  = link_to t('links.shop'), categories_path
   .links
-    = link_to "Shopping Cart", shopping_cart_path
-    = link_to "Orders", orders_path
-    = link_to "Settings", edit_customer_registration_path
-    = link_to "Sign out", destroy_customer_session_path, method: :delete
-  %h3 Orders
-  %h4 IN PROGRESS
+    = link_to t('links.shopping_cart'), shopping_cart_path
+    = link_to t('links.orders'), orders_path
+    = link_to t('links.settings'), edit_customer_registration_path
+    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+  %h3=t('orders.title')
+  %h4=t('orders.in_progress')
   %table
     %tr
-      %th Image
-      %th Book title
-      %th Price
-      %th Quantity
-      %th Total
+      %th=t('order_items.image')
+      %th=t('order_items.book')
+      %th=t('order_items.book_price')
+      %th=t('order_items.quantity')
+      %th=t('order_items.total')
     - @orders.in_progress.first.order_items.each do |order_item|
       %tr
         %td= image_tag(order_item.book.image, size: "100x75", class: "image")
@@ -23,41 +23,41 @@
         %td.col_table= order_item.quantity
         %td.col_table $ #{order_item.price}
   .subtotal    
-    %strong SUBTOTAL: $ #{@orders.in_progress.first.total_price}
-  = button_to "Go to Cart", shopping_cart_path, method: :get
-  %h4 IN QUEUE
+    %strong=t('orders.subtotal', order: @orders.in_progress.first.total_price)
+  = button_to t('orders.go_to_cart'), shopping_cart_path, method: :get
+  %h4=t('orders.in_queue')
   %table
     %tr
-      %th Number
-      %th Completed at
-      %th Total
+      %th=t('orders.number')
+      %th=t('orders.completed_at')
+      %th=t('orders.total')
     - @orders.in_queue.each do |order|
       %tr
         %td.col_title= order.id
         %td.col_table= order.completed_at
         %td.col_table $ #{order.total_price}
-        %td.col_table= link_to "View", order_path(order), class: 'link', method: :get
-  %h4 IN DELIVERY
+        %td.col_table= link_to t('orders.view'), order_path(order), class: 'link', method: :get
+  %h4=t('orders.in_delivery')
   %table
     %tr
-      %th Number
-      %th Completed at
-      %th Total
+      %th=t('orders.number')
+      %th=t('orders.completed_at')
+      %th=t('orders.total')
     - @orders.in_delivery.each do |order|
       %tr
         %td.col_title= order.id
         %td.col_table= order.completed_at
         %td.col_table $ #{order.total_price}
-        %td.col_table= link_to "View", order_path(order), method: :get
-  %h4 DELIVERED
+        %td.col_table= link_to t('orders.view'), order_path(order), method: :get
+  %h4=t('orders.delivered')
   %table
     %tr
-      %th Number
-      %th Completed at
-      %th Total
+      %th=t('orders.number')
+      %th=t('orders.completed_at')
+      %th=t('orders.total')
     - @orders.delivered.each do |order|
       %tr
         %td.col_title= order.id
         %td.col_table= order.completed_at
         %td.col_table $ #{order.total_price}
-        %td.col_table= link_to "View", order_path(order), method: :get
+        %td.col_table= link_to t('orders.view'), order_path(order), method: :get

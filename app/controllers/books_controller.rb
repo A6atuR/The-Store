@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_filter :authenticate_customer!
-  authorize_resource
+  load_and_authorize_resource
 
   def index
     @books = Book.all
@@ -13,6 +13,6 @@ class BooksController < ApplicationController
     @order = current_customer.current_order
     @order_item = @order.order_items.new
     @rating = Rating.new
-    @ratings = @book.ratings.where status: "approved"
+    @ratings = @book.ratings.approved
   end
 end

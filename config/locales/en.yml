@@ -20,4 +20,58 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  links: 
+    home: "Home"
+    shop: "Shop"
+    shopping_cart: "Shopping Cart"
+    orders: "Orders"
+    settings: "Settings"
+    sign_out: "Sign out"
+  books:
+    submit: "Add to Cart"
+    reviews: "Reviews"
+  addresses:
+    submit: "Save and Continue"
+    edit: "Edit"
+  orders:
+    checkout: "Checkout"
+    address: "ADDRESS"
+    credit_card: "CREDIT CARD"
+    confirm: "CONFIRM"
+    address: "Address"
+    payment_info: "Payment Information"
+    subtotal: "SUBTOTAL: $ %{order}"
+    submit: "Place Order"
+    title: "Orders"
+    in_progress: "IN PROGRESS"
+    in_queue: "IN QUEUE"
+    in_delivery: "IN DELIVERY"
+    delivered: "DELIVERED"
+    number: "Number"
+    completed_at: "Completed at"
+    total: "Total"
+    view: "View"
+    go_to_cart: "Go to Cart"
+    shopping_cart: "Shopping Cart"
+    back_to_orders: "Back to orders"
+    name: "Order %{order}"
+  credit_cards:
+    submit: "Save and Continue"
+    edit: "Edit"
+  ratings:
+    submit: "Add Review"
+  categories: 
+    shop: "Shop"
+    shop_by_categories: "Shop by Categories"
+    categories: "Categories - %{category}"
+  layout:
+    app_name: "Amazon"
+    app_title: "The Bookstore"
+  order_items:
+    image: "Image"
+    book: "Book title"
+    book_price: "Price"
+    quantity: "Quantity"
+    total: "Total"
+    remove: "Remove"
+    submit: "Checkout"

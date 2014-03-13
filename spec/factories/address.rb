@@ -5,6 +5,7 @@ FactoryGirl.define do
     city Faker::Address.city
     phone Faker::PhoneNumber.phone_number
     country
+    customer
   end
 
   factory :invalid_address, parent: :address do |f| 

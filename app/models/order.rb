@@ -9,6 +9,10 @@ class Order < ActiveRecord::Base
     state :in_queue
     state :in_delivery
     state :delivered
+
+    event :checkout do
+      transition :in_progress => :in_queue
+    end
   end
 
   state_machine.states.map do |state|
@@ -29,7 +33,6 @@ class Order < ActiveRecord::Base
       field :state
       field :completed_at
       field :customer
-      field :status
       field :address
     end
   end

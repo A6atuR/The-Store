@@ -1,19 +1,19 @@
 .container
-  = link_to "Home", books_path
-  = link_to "Shop", categories_path
+  = link_to t('links.home'), books_path
+  = link_to t('links.shop'), categories_path
   .links
-    = link_to "Shopping Cart", shopping_cart_path
-    = link_to "Orders", orders_path
-    = link_to "Settings", edit_customer_registration_path
-    = link_to "Sign out", destroy_customer_session_path, method: :delete
-  %h3 Shopping Cart
+    = link_to t('links.shopping_cart'), shopping_cart_path
+    = link_to t('links.orders'), orders_path
+    = link_to t('links.settings'), edit_customer_registration_path
+    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+  %h3=t('orders.shopping_cart')
   %table
     %tr
-      %th Image
-      %th Book title
-      %th Price
-      %th Quantity
-      %th Total
+      %th=t('order_items.image')
+      %th=t('order_items.book')
+      %th=t('order_items.book_price')
+      %th=t('order_items.quantity')
+      %th=t('order_items.total')
     - @order.order_items.each do |order_item|
       %tr
         %td= image_tag(order_item.book.image, size: "100x75", class: "image")
@@ -21,8 +21,8 @@
         %td.col_table $ #{order_item.book.price}
         %td.col_table= order_item.quantity
         %td.col_table $ #{order_item.price}
-        %td.col_table= link_to 'Remove', order_order_item_path(order_item.order, order_item), method: :delete, class: "link"
+        %td.col_table= link_to t('order_items.remove'), order_order_item_path(order_item.order, order_item), method: :delete, class: "link"
   .subtotal    
-    %strong SUBTOTAL: $ #{@order.total_price}
+    %strong=t('orders.subtotal', order: @order.total_price)
     %p 
-      = button_to "Checkout", new_address_path, method: :get
+      = button_to t('order_items.submit'), new_address_path, method: :get

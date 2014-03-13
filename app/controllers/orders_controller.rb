@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
   
   def index
     @orders = current_customer.orders
@@ -11,8 +11,9 @@ class OrdersController < ApplicationController
 
   def update
     @order = current_customer.current_order
-    @order.update_attributes(status: "order", total_price: @order.total_price, completed_at: Time.now, state: 'in_queue')
-    current_customer.orders.create(status: "shopping_cart", state: 'in_progress')
+    @order.update_attributes(total_price: @order.total_price, completed_at: Time.now)
+    @order.checkout
+    current_customer.orders.create(state: 'in_progress')
     redirect_to orders_path
   end
 

@@ -1,5 +1,6 @@
 class OrderItemsController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
+  skip_load_resource :only => [:create]
   
   def create
     @order = current_customer.current_order

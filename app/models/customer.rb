@@ -7,15 +7,16 @@ class Customer < ActiveRecord::Base
   has_many :ratings
   has_many :orders
   has_many :credit_cards
+  has_many :addresses
   validates :password, length: { in: 8..15 }
 
   def current_order
-    orders.find_by status: "shopping_cart"
+    orders.find_by state: 'in_progress'
   end
 
   private
 
   def create_order
-    Order.create(customer_id: self.id, status: "shopping_cart", state: 'in_progress')
+    Order.create(customer_id: self.id, state: 'in_progress')
   end
 end

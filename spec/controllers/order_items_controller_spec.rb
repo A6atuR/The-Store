@@ -1,14 +1,14 @@
 require 'spec_helper'
 
 describe OrderItemsController do
-  let(:customer) { stub_model(Customer, current_order: order) }
-  let(:order) { create(:order) }
+  let(:order) { @customer.orders.first }
   let(:book) { create(:book) }
   let(:order_item) { create(:order_item, order_id: order.id) }
 
   describe "POST create" do 
     before (:each) do
-      allow(controller).to receive(:current_customer) { customer }
+      @customer = create(:customer)
+      allow(controller).to receive(:current_customer) { @customer }
     end
       
     it "redirects to the shopping_cart_path if order_item is valid" do
@@ -18,7 +18,12 @@ describe OrderItemsController do
   end
 
   describe 'DELETE destroy' do
-    it "redirects to shopping_cart_path" do 
+    before (:each) do
+      @customer = create(:customer)
+      allow(controller).to receive(:current_customer) { @customer }
+    end
+
+    it "redirects to shopping_cart_path if order item belongs to customers current order" do 
       delete :destroy, { order_id: order.id, id: order_item.id }
       expect(response).to redirect_to shopping_cart_path 
     end

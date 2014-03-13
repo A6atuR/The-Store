@@ -3,6 +3,8 @@ class Rating < ActiveRecord::Base
   belongs_to :customer
   validates_inclusion_of :rating, in: 1..10
 
+  scope :approved, -> { where(status: "approved") }
+
   state_machine :status, :initial => :not_viewed do
     state :not_viewed
     state :approved

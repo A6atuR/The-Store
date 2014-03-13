@@ -1,11 +1,11 @@
 .container
-  = link_to "Home", books_path
-  = link_to "Shop", categories_path
+  = link_to t('links.home'), books_path
+  = link_to t('links.shop'), categories_path
   .links
-    = link_to "Shopping Cart", shopping_cart_path
-    = link_to "Orders", orders_path
-    = link_to "Settings", edit_customer_registration_path
-    = link_to "Sign out", destroy_customer_session_path, method: :delete
+    = link_to t('links.shopping_cart'), shopping_cart_path
+    = link_to t('links.orders'), orders_path
+    = link_to t('links.settings'), edit_customer_registration_path
+    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
   #myCarousel.carousel.slide
     .carousel-inner
       .active.item
@@ -23,7 +23,7 @@
             = f.text_field :quantity
             = f.hidden_field :book_id, value: @books.last.id
           %p
-            = f.submit "Add to Cart"
+            = f.submit t('books.submit')
       - @books.each do |book|
         .item
           %h3= book.title
@@ -40,6 +40,6 @@
               = f.text_field :quantity
               = f.hidden_field :book_id, value: book.id
             %p
-              = f.submit "Add to Cart"
+              = f.submit t('books.submit')
     %a.carousel-control.left{"data-slide" => "prev", href: "#myCarousel"} ‹
     %a.carousel-control.right{"data-slide" => "next", href: "#myCarousel"} ›
