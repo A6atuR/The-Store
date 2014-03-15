@@ -9,7 +9,6 @@ class BooksController < ApplicationController
   end
 
   def show
-    @book = Book.find(params[:id])
     @order = current_customer.current_order
     @order_item = @order.order_items.new
     @rating = Rating.new

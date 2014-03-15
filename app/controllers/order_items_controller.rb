@@ -1,15 +1,13 @@
 class OrderItemsController < ApplicationController
   load_and_authorize_resource
-  skip_load_resource :only => [:create]
   
   def create
     @order = current_customer.current_order
-    @order_item = @order.order_items.create(order_item_params)
-    redirect_to shopping_cart_path
+    @order_item.order = @order
+    redirect_to shopping_cart_path if @order_item.save
   end
 
   def destroy
-    @order_item = OrderItem.find(params[:id])
     @order_item.destroy
     redirect_to shopping_cart_path
   end

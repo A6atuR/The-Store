@@ -1,14 +1,12 @@
 class CreditCardsController < ApplicationController
   load_and_authorize_resource
-  skip_load_resource :only => [:create]
   
   def new
-    @credit_card = CreditCard.new
   end
 
   def create
     @order = current_customer.current_order
-    @credit_card = current_customer.credit_cards.new(credit_card_params)
+    @credit_card.customer = current_customer
     if @credit_card.save
       @order.update_attribute(:credit_card_id, @credit_card.id)
       redirect_to order_confirm_path(@order)
@@ -18,12 +16,10 @@ class CreditCardsController < ApplicationController
   end
 
   def edit
-    @credit_card = CreditCard.find(params[:id])
   end
 
   def update
     @order = current_customer.current_order
-    @credit_card = CreditCard.find(params[:id])
     if @credit_card.update(credit_card_params)
       redirect_to order_confirm_path(@order)
     else
