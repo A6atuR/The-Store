@@ -18,18 +18,32 @@ describe CreditCardsController do
     before (:each) do
       @customer = create(:customer)
       sign_in @customer
-      @credit_card = create(:credit_card, customer_id: @customer.id)
     end
 
     it "responds successfully with an HTTP 200 status code if credit_card belongs to current customer" do
+      @credit_card = create(:credit_card, customer_id: @customer.id)
       get :edit, id: @credit_card.id
       expect(response).to be_success
       expect(response.status).to eq(200)
     end
 
     it "renders the edit template if credit_card belongs to current customer" do
+      @credit_card = create(:credit_card, customer_id: @customer.id)
       get :edit, id: @credit_card.id
       expect(response).to render_template("edit")
+    end
+
+    it "not responds successfully with an HTTP 200 status code if credit_card not belongs to current customer" do
+      @credit_card = create(:credit_card)
+      get :edit, id: @credit_card.id
+      expect(response).not_to be_success
+      expect(response.status).not_to eq(200)
+    end
+
+    it "redirects to root url if credit_card not belongs to current customer" do
+      @credit_card = create(:credit_card)
+      get :edit, id: @credit_card.id
+      expect(response).to redirect_to root_url
     end
   end
 
@@ -52,15 +66,22 @@ describe CreditCardsController do
       @customer = create(:customer)
       @order = @customer.orders.in_progress.first
       allow(controller).to receive(:current_customer) { @customer }
-      @credit_card = create(:credit_card, customer_id: @customer.id)
     end
       
     it "redirects to the order_confirm_path if credit_card is valid and belongs to current customer" do
+      @credit_card = create(:credit_card, customer_id: @customer.id)
       patch :update, id: @credit_card.id, credit_card: attributes_for(:credit_card, cvv: 2222) 
       response.should redirect_to order_confirm_path(@order) 
     end
 
+    it "redirects to root url if credit_card is valid and not belongs to current customer" do
+      @credit_card = create(:credit_card)
+      patch :update, id: @credit_card.id, credit_card: attributes_for(:credit_card, cvv: 2222) 
+      response.should redirect_to root_url
+    end
+
     it "re-renders the edit template if credit_card is invalid" do
+      @credit_card = create(:credit_card, customer_id: @customer.id)
       patch :update, id: @credit_card.id, credit_card: attributes_for(:invalid_credit_card) 
       response.should render_template :edit
     end

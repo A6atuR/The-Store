@@ -65,5 +65,11 @@ describe OrdersController do
       patch :update, id: order.id, order: attributes_for(:order) 
       response.should redirect_to orders_path 
     end
+
+    it "redirects to root url if order is valid and not belongs to current_customer" do
+      @order = create(:order)
+      patch :update, id: @order.id, order: attributes_for(:order) 
+      response.should redirect_to root_url 
+    end
   end
 end

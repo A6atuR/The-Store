@@ -27,5 +27,11 @@ describe OrderItemsController do
       delete :destroy, { order_id: order.id, id: order_item.id }
       expect(response).to redirect_to shopping_cart_path 
     end
+
+    it "redirects to root url if order item not belongs to customers current order" do
+      @order_item = create(:order_item)
+      delete :destroy, { order_id: order.id, id: @order_item.id }
+      expect(response).to redirect_to root_url
+    end
   end
 end

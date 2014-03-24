@@ -27,10 +27,23 @@ describe AddressesController do
       expect(response.status).to eq(200)
     end
 
+    it "not responds successfully with an HTTP 200 status code if this address not belongs to current customer" do
+      @address = create(:address)
+      get :edit, id: @address.id
+      expect(response).not_to be_success
+      expect(response.status).not_to eq(200)
+    end
+
     it "renders the edit template if this address belongs to current customer" do
       @address = create(:address, customer_id: @customer.id)
       get :edit, id: @address.id
       expect(response).to render_template("edit")
+    end
+
+    it "redirects to root url if this address not belongs to current customer" do
+      @address = create(:address)
+      get :edit, id: @address.id
+      expect(response).to redirect_to root_url
     end
   end
 
@@ -58,15 +71,22 @@ describe AddressesController do
       @customer = create(:customer)
       @order = @customer.orders.in_progress.first
       allow(controller).to receive(:current_customer) { @customer }
-      @address = create(:address, customer_id: @customer.id)
     end
 
     it "re-renders the edit template if address is invalid" do
+      @address = create(:address, customer_id: @customer.id)
       patch :update, id: @address.id, address: attributes_for(:invalid_address) 
       response.should render_template :edit
     end
 
+    it "redirects to root_url if address is valid and not belongs to current customer" do
+      @address = create(:address)
+      patch :update, id: @address.id, address: attributes_for(:address, address: "Street") 
+      expect(response).to redirect_to root_url
+    end
+
     it "redirects to the order_confirm_path if address is valid and belongs to current customer" do
+      @address = create(:address, customer_id: @customer.id)
       patch :update, id: @address.id, address: attributes_for(:address, address: "Street", customer_id: @customer.id) 
       response.should redirect_to order_confirm_path(@order) 
     end
