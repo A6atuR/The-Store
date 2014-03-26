@@ -13,16 +13,16 @@ feature "Order Item" do
   scenario "Customer can put books into a shopping cart" do
     visit book_path(book)
     fill_in 'order_item_quantity', with: 2
-    click_button("Add to Cart")
-    expect(page).to have_content "Shopping Cart"
-    expect(page).to have_content "Remove"
-    expect(page).not_to have_content 'Add to Cart'
+    click_button I18n.t('books.submit')
+    expect(page).to have_content I18n.t('orders.shopping_cart')
+    expect(page).to have_content I18n.t('order_items.remove')
+    expect(page).not_to have_content I18n.t('books.submit')
   end
 
   scenario "Customer can remove books from shopping cart before completing an order" do
     visit shopping_cart_path
     page.find(".link").click
-    expect(page).to have_content "Shopping Cart"
-    expect(page).not_to have_content 'Add to Cart'
+    expect(page).to have_content I18n.t('orders.shopping_cart')
+    expect(page).not_to have_content I18n.t('books.submit')
   end
 end

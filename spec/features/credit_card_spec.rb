@@ -18,10 +18,10 @@ feature "Credit Card" do
       fill_in 'credit_card_cvv', with: 111
       fill_in 'credit_card_expiration_month', with: "March"
       fill_in 'credit_card_expiration_year', with: 2018
-      click_button('Save and Continue')
+      click_button I18n.t('credit_cards.submit')
     end
-    expect(page).not_to have_content 'CREDIT CARD'
-    expect(page).to have_content 'CONFIRM'
+    expect(page).not_to have_content I18n.t('orders.credit_card')
+    expect(page).to have_content I18n.t('orders.confirm')
   end
 
   scenario "Customer can edit credit_card before compliting this order" do
@@ -31,9 +31,9 @@ feature "Credit Card" do
       fill_in 'credit_card_cvv', with: 2222
       fill_in 'credit_card_expiration_month', with: "March"
       fill_in 'credit_card_expiration_year', with: 2015
-      click_button('Save and Continue')
+      click_button I18n.t('credit_cards.submit')
     end
-    expect(page).not_to have_content 'CREDIT CARD'
-    expect(page).to have_content 'CONFIRM'
+    expect(page).not_to have_content I18n.t('orders.credit_card')
+    expect(page).to have_content I18n.t('orders.confirm')
   end
 end

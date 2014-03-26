@@ -12,7 +12,7 @@ feature "Book" do
     visit categories_path
     click_link(@book.title)
     expect(page).to have_content @book.description
-    expect(page).to have_content "Reviews"
-    expect(page).not_to have_content 'Shop by Categories'
+    expect(page).to have_content I18n.t('books.reviews')
+    expect(page).not_to have_content I18n.t('categories.shop_by_categories')
   end
 end

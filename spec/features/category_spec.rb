@@ -12,16 +12,16 @@ feature "Category" do
   
   scenario "Customer can view shop page" do
     visit books_path
-    click_link("Shop")
-    expect(page).not_to have_content "Add to Cart"
-    expect(page).to have_content 'Shop'
-    expect(page).to have_content 'Shop by Categories'
+    click_link I18n.t('links.shop')
+    expect(page).not_to have_content I18n.t('books.submit')
+    expect(page).to have_content I18n.t('links.shop')
+    expect(page).to have_content I18n.t('categories.shop_by_categories')
   end
 
   scenario "Customer can navigate the site by categories" do
     visit categories_path
     click_link(@category.title)
-    expect(page).to have_content "Categories - #{@category.title}"
-    expect(page).to have_content 'Shop by Categories'
+    expect(page).to have_content I18n.t('categories.categories', category: @category.title)
+    expect(page).to have_content I18n.t('categories.shop_by_categories')
   end
 end

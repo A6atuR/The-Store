@@ -1,5 +1,4 @@
 class BooksController < ApplicationController
-  before_filter :authenticate_customer!
   load_and_authorize_resource
 
   def index

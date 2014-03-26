@@ -1,37 +1,74 @@
-require 'spec_helper'
+require 'controllers/controllers_spec_helper'
 
 describe OrderItemsController do
-  let(:order) { @customer.orders.first }
-  let(:book) { create(:book) }
-  let(:order_item) { create(:order_item, order_id: order.id) }
+  before do
+    @customer = create(:customer)
+    @order = @customer.orders.in_progress.first
+    allow(controller).to receive(:current_customer) { @customer }
+    @book = create(:book)
+    @order_item = create(:order_item)
+    redefine_cancan_abilities
+  end
 
-  describe "POST create" do 
-    before (:each) do
-      @customer = create(:customer)
-      allow(controller).to receive(:current_customer) { @customer }
+  context "POST create" do
+    context 'being signed in' do 
+      before (:each) do
+        sign_in @customer
+        post :create, { order_id: @order.id, order_item: attributes_for(:order_item, book_id: @book.id) }
+      end
+        
+      it "redirects to the shopping_cart_path if order_item is valid" do
+        response.should redirect_to shopping_cart_path
+      end
     end
-      
-    it "redirects to the shopping_cart_path if order_item is valid" do
-      post :create, { order_id: order.id, order_item: attributes_for(:order_item, book_id: book.id) }
-      response.should redirect_to shopping_cart_path
+
+    context 'being not signed in' do
+      before do
+        post :create, { order_id: @order.id, order_item: attributes_for(:order_item, book_id: @book.id) }
+      end
+
+      it { should redirect_to new_customer_session_path }
+    end
+
+    context 'cancan doesnt allow :create' do
+      before do
+        sign_in @customer
+        @ability.cannot :create, OrderItem
+        post :create, { order_id: @order.id, order_item: attributes_for(:order_item, book_id: @book.id) }
+      end
+
+      it { should redirect_to root_path }
     end
   end
 
-  describe 'DELETE destroy' do
-    before (:each) do
-      @customer = create(:customer)
-      allow(controller).to receive(:current_customer) { @customer }
+  context 'DELETE destroy' do
+    context 'being signed in' do 
+      before (:each) do
+        sign_in @customer
+        delete :destroy, { order_id: @order.id, id: @order_item.id }
+      end
+
+      it "redirects to shopping_cart_path" do 
+        expect(response).to redirect_to shopping_cart_path 
+      end
     end
 
-    it "redirects to shopping_cart_path if order item belongs to customers current order" do 
-      delete :destroy, { order_id: order.id, id: order_item.id }
-      expect(response).to redirect_to shopping_cart_path 
+    context 'being not signed in' do
+      before do
+        delete :destroy, { order_id: @order.id, id: @order_item.id }
+      end
+
+      it { should redirect_to new_customer_session_path }
     end
 
-    it "redirects to root url if order item not belongs to customers current order" do
-      @order_item = create(:order_item)
-      delete :destroy, { order_id: order.id, id: @order_item.id }
-      expect(response).to redirect_to root_url
+    context 'cancan doesnt allow :destroy' do
+      before do
+        sign_in @customer
+        @ability.cannot :destroy, OrderItem
+        delete :destroy, { order_id: @order.id, id: @order_item.id }
+      end
+
+      it { should redirect_to root_path }
     end
   end
 end

@@ -75,3 +75,8 @@ en:
     total: "Total"
     remove: "Remove"
     submit: "Checkout"
+  devise:
+    sign_up: "Sign up"
+    sign_in: "Sign in"
+    save: "Save"
+    remove_account: "Remove Account"

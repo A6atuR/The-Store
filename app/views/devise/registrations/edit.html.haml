@@ -29,7 +29,7 @@
       %i (we need your current password to confirm your changes)
       %br/
       = f.password_field :current_password
-    %div= f.submit "Save"
-  %h3 Remove Account
+    %div= f.submit t('devise.save')
+  %h3=t('devise.remove_account')
   %p
     = button_to "Please remove my account", registration_path(resource_name), :data => { :confirm => "Are you sure?" }, :method => :delete

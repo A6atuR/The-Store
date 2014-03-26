@@ -10,7 +10,7 @@ class RatingsController < ApplicationController
     if @rating.save
       redirect_to book_path(@book)
     else
-      render 'books/index'
+      redirect_to root_url
     end
   end
 
