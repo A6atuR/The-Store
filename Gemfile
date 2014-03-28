@@ -64,3 +64,4 @@ group :test do
 end
 
 gem "devise"
+gem 'rails_12factor', group: :production
