@@ -14,7 +14,7 @@ class OrdersController < ApplicationController
     @order.update_attributes(total_price: @order.total_price, completed_at: Time.now)
     @order.checkout
     current_customer.orders.create(state: 'in_progress')
-    redirect_to orders_path
+    redirect_to orders_path, alert: "Order has been successfully created"
   end
 
   def confirm

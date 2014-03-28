@@ -9,9 +9,9 @@ class AddressesController < ApplicationController
     @address.customer = current_customer
     if @address.save
       @order.update_attribute(:address_id, @address.id)
-      redirect_to new_credit_card_path
+      redirect_to new_credit_card_path, alert: "Address has been successfully created"
     else
-      render 'new'
+      render 'new', alert: "Incorrect data"
     end 
   end
 
@@ -21,9 +21,9 @@ class AddressesController < ApplicationController
   def update
     @order = current_customer.current_order
     if @address.update(address_params)
-      redirect_to order_confirm_path(@order)
+      redirect_to order_confirm_path(@order), alert: "Address has been successfully updated"
     else
-      render 'edit'
+      render 'edit', alert: "Incorrect data"
     end 
   end
 

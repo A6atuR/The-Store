@@ -9,9 +9,9 @@ class CreditCardsController < ApplicationController
     @credit_card.customer = current_customer
     if @credit_card.save
       @order.update_attribute(:credit_card_id, @credit_card.id)
-      redirect_to order_confirm_path(@order)
+      redirect_to order_confirm_path(@order), alert: "Credit Card has been successfully created"
     else
-      render 'new'
+      render 'new', alert: "Incorrect data"
     end
   end
 
@@ -21,9 +21,9 @@ class CreditCardsController < ApplicationController
   def update
     @order = current_customer.current_order
     if @credit_card.update(credit_card_params)
-      redirect_to order_confirm_path(@order)
+      redirect_to order_confirm_path(@order), alert: "Credit Card has been successfully updated"
     else
-      render 'edit'
+      render 'edit', alert: "Incorrect data"
     end 
   end
  

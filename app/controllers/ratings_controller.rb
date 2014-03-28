@@ -8,9 +8,9 @@ class RatingsController < ApplicationController
     @order_item = @order.order_items.new
     @rating.customer = current_customer
     if @rating.save
-      redirect_to book_path(@book)
+      redirect_to book_path(@book), alert: "Rating successfully created and waiting for review"
     else
-      redirect_to root_url
+      redirect_to root_url, alert: "Incorrect data"
     end
   end
 
