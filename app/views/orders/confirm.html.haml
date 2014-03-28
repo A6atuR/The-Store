@@ -1,0 +1,42 @@
+.container
+  = link_to t('links.home'), books_path
+  = link_to t('links.shop'), categories_path
+  .links
+    = link_to t('links.shopping_cart'), shopping_cart_path
+    = link_to t('links.orders'), orders_path
+    = link_to t('links.settings'), edit_customer_registration_path
+    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+  %h3=t('orders.checkout')
+  %h3=t('orders.confirm')
+  .confirm_info
+    %strong=t('orders.address') 
+    = link_to t('addresses.edit'), edit_address_path(@address)
+    %p= @address.address
+    %p= @address.city
+    %p= @address.zip_code
+    %p= @address.phone
+  .confirm_info
+    %strong=t('orders.payment_info')
+    = link_to t('credit_cards.edit'), edit_credit_card_path(@credit_card)
+    %p**** **** **** #{@credit_card.cvv}
+    %p= @credit_card.expiration_month
+    %p= @credit_card.expiration_year
+  %table
+    %tr
+      %th=t('order_items.image')
+      %th=t('order_items.book')
+      %th=t('order_items.book_price')
+      %th=t('order_items.quantity')
+      %th=t('order_items.total')
+    - @order.order_items.each do |order_item|
+      %tr
+        %td= image_tag(order_item.book.image, size: "100x75", class: "image")
+        %td.col_title= order_item.book.title
+        %td.col_table $ #{order_item.book.price}
+        %td.col_table= order_item.quantity
+        %td.col_table $ #{order_item.price}
+  .subtotal    
+    %strong=t('orders.subtotal', order: @order.total_price)
+    = form_for @order, url: order_path(@order), method: :patch do |f|
+      %p
+        = f.submit t('orders.submit')

@@ -1,0 +1,45 @@
+.container
+  = link_to t('links.home'), books_path
+  = link_to t('links.shop'), categories_path
+  .links
+    = link_to t('links.shopping_cart'), shopping_cart_path
+    = link_to t('links.orders'), orders_path
+    = link_to t('links.settings'), edit_customer_registration_path
+    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+  #myCarousel.carousel.slide
+    .carousel-inner
+      .active.item
+        %h3= @books.last.title
+        - @books.last.authors.each do |author|
+          %strong
+            by #{author.first_name} #{author.last_name}
+        %p
+          = image_tag(@books.last.image, size: "200x150", class: "image")
+          = @books.last.description
+        %h4
+          $ #{@books.last.price}
+        = form_for @order_item, url: order_order_items_path(@order) do |f|
+          %p
+            = f.text_field :quantity
+            = f.hidden_field :book_id, value: @books.last.id
+          %p
+            = f.submit t('books.submit')
+      - @books.each do |book|
+        .item
+          %h3= book.title
+          - book.authors.each do |author|
+            %strong
+              by #{author.first_name} #{author.last_name}
+          %p
+            = image_tag(book.image, size: "200x200", class: "image")
+            = book.description
+          %h4
+            $ #{book.price}
+          = form_for @order_item, url: order_order_items_path(@order) do |f|
+            %p
+              = f.text_field :quantity
+              = f.hidden_field :book_id, value: book.id
+            %p
+              = f.submit t('books.submit')
+    %a.carousel-control.left{"data-slide" => "prev", href: "#myCarousel"} ‹
+    %a.carousel-control.right{"data-slide" => "next", href: "#myCarousel"} ›

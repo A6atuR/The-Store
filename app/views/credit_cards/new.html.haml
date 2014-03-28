@@ -1,0 +1,25 @@
+.container
+  = link_to t('links.home'), books_path
+  = link_to t('links.shop'), categories_path
+  .links
+    = link_to t('links.shopping_cart'), shopping_cart_path
+    = link_to t('links.orders'), orders_path
+    = link_to t('links.settings'), edit_customer_registration_path
+    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+  %h3=t('orders.checkout')
+  %h3=t('orders.credit_card')
+  = form_for @credit_card, url: credit_cards_path do |f|
+    %p
+      = f.label :card_number
+      = f.text_field :number
+    %p
+      = f.label :cvv
+      = f.text_field :cvv
+    %p
+      = f.label :expiration_month
+      = f.text_field :expiration_month
+    %p
+      = f.label :expiration_year
+      = f.text_field :expiration_year
+    %p
+      = f.submit t('credit_cards.submit')
