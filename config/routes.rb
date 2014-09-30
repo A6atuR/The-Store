@@ -1,5 +1,7 @@
 Amazon::Application.routes.draw do
-  devise_for :customers
+  get "omniauth_callbacks/facebook"
+  devise_for :customers, :controllers => { :omniauth_callbacks => "customers/omniauth_callbacks" }
+  resources :customers, :only => [:index, :destroy]
   devise_for :admins
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   root "books#index"

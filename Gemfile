@@ -10,6 +10,8 @@ gem 'haml'
 gem 'kaminari'
 gem 'state_machine'
 gem "cancan"
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 # Use sqlite3 as the database for Active Record
 gem 'pg', '0.17.1'
