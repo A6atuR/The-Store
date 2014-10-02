@@ -1,38 +1,37 @@
-.container
-  = link_to t('links.home'), books_path
-  = link_to t('links.shop'), categories_path
-  .links
-    = link_to t('links.shopping_cart'), shopping_cart_path
-    = link_to t('links.orders'), orders_path
-    = link_to t('links.settings'), edit_customer_registration_path
-    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
-  %h3= @book.title
-  %p
-    = image_tag(@book.image, size: "200x150", class: "image")
-    = @book.description
-  %h4 $ #{@book.price}
-  = form_for @order_item, url: order_order_items_path(@order) do |f|
-    %p
-      = f.text_field :quantity
+.row 
+  .span12
+    .media
+      %h3.media-heading= @book.title
+      - @book.authors.each do |author|
+        %strong
+          by #{author.first_name} #{author.last_name}
+      .media-body
+        = image_tag(@book.image, size: "200x150", class: "media-object")
+        %h4
+          $ #{@book.price}
+        = form_for @order_item, url: order_order_items_path(@order), html: {class: "form-inline"} do |f|
+          = f.text_field :quantity, class: "input-mini"
+          = f.hidden_field :book_id, value: @book.id
+          = f.submit t('books.submit'), class: "btn btn-primary"
+        %p= @book.description
+
+        
+    %h3=t('books.reviews')
+    = form_for @rating, url: book_ratings_path(@book) do |f|
       = f.hidden_field :book_id, value: @book.id
-    %p
-      = f.submit t('books.submit')
-  %h3=t('books.reviews')
-  = form_for @rating, url: book_ratings_path(@book) do |f|
-    = f.hidden_field :book_id, value: @book.id
-    %p
-      = f.label :rating
-      = f.text_field :rating
-    %p
-      = f.label :review
-      = f.text_area :text
-    %p
-      = f.submit t('ratings.submit')
-  - @ratings.each do |rating|
-    %p
-      Rating: #{rating.rating} by #{rating.customer.email}
-    %p
-      = rating.created_at
-    %p
-      = rating.text
-    %br
+      %p
+        = f.label :rating
+        = f.text_field :rating
+      %p
+        = f.label :review
+        = f.text_area :text
+      %p
+        = f.submit t('ratings.submit')
+    - @ratings.each do |rating|
+      %p
+        Rating: #{rating.rating} by #{rating.customer.email}
+      %p
+        = rating.created_at
+      %p
+        = rating.text
+      %br

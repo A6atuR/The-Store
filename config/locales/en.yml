@@ -23,10 +23,12 @@ en:
   links: 
     home: "Home"
     shop: "Shop"
-    shopping_cart: "Shopping Cart"
+    shopping_cart: "Shopping Cart:"
     orders: "Orders"
     settings: "Settings"
     sign_out: "Sign out"
+    sign_up: "Sign up"
+    sign_in: "Sign in"
   books:
     submit: "Add to Cart"
     reviews: "Reviews"

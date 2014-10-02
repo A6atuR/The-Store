@@ -68,3 +68,52 @@ div.confirm_info {
   float: left;
   padding-right: 150px;
 }
+
+.pull-right {
+  float: right !important;
+} 
+
+.media-object {
+  padding-top: 5px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+  float: left;
+}
+
+h3, h4 {
+  display:inline;
+  padding-right: 5px;
+}
+
+strong {
+  display: inline;
+  padding-left: 30px;
+}
+
+.form-inline {
+  display: inline;
+}
+
+h2 {
+  padding-left: 30px;
+  padding-bottom: 10px;
+}
+
+.book_title {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.book_price {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+ul.category {
+  padding-top: 10px;
+}
+
+ul.breadcrumb {
+  padding-left: 30px;
+  background-color: white;
+}

@@ -9,7 +9,7 @@ class Book < ActiveRecord::Base
   validates :title, uniqueness: true
 
   mount_uploader :image, ImageUploader
-  paginates_per 9
+  paginates_per 3
 
   rails_admin do
     edit do
