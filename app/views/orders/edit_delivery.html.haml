@@ -1,0 +1,33 @@
+.row
+  .span2
+    %h3=t('orders.checkout')
+  .span9.offset1
+    %ul.breadcrumb.pull-right
+      %li 
+        %h5.blue_text BILLING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.blue_text SHIPPING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.blue_text DELIVERY
+        %span.divider >>
+      %li 
+        %h5.blue_text PAYMENT
+        %span.divider >>
+      %li 
+        %h5.text CONFIRM
+        %span.divider >>
+      %li 
+        COMPLETE
+  .span12
+    %h4=t('orders.confirm')
+  .span2
+    = form_for @order, url: order_update_delivery_path(@order), method: :patch do |f|
+      %fieldset
+        %legend EDIT DELIVERY
+      - @deliveries.each do |delivery|
+        %label.radio
+          = f.radio_button :delivery_id, delivery.id
+          #{delivery.name} + $#{delivery.price}
+      %p.check_box= f.submit t('addresses.submit'), class: "btn btn-primary"

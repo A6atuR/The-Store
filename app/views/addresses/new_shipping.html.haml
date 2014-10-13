@@ -1,0 +1,48 @@
+- if @shipping_address.errors.full_messages.any?
+  .alert.alert-error
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    %ul
+      - @shipping_address.errors.full_messages.each do |message|
+        %li= message
+.row
+  .span2
+    %h3=t('orders.checkout')
+  .span9.offset1
+    %ul.breadcrumb.pull-right
+      %li 
+        %h5.blue_text BILLING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.text SHIPPING ADDRESS 
+        %span.divider >>
+      %li 
+        DELIVERY
+        %span.divider >>
+      %li 
+        PAYMENT
+        %span.divider >>
+      %li 
+        CONFIRM
+        %span.divider >>
+      %li 
+        COMPLETE
+  .span3
+    = form_for @shipping_address, url: create_shipping_addresses_path do |f|
+      %fieldset
+        %legend SHIPPING ADDRESS
+        %p= f.text_field :first_name, placeholder: "First name", class: "span3"
+        %p= f.text_field :last_name, placeholder: "Last name", class: "span3"
+        %p= f.text_field :address, placeholder: "Street Address", class: "span3"
+        %p= f.text_field :city, placeholder: "City", class: "span3"
+        %p= f.collection_select :country_id, Country.all, :id, :name, {prompt: "Country"}, {class: "span3"}
+        %p= f.text_field :zip_code, placeholder: "Zip", class: "span1"
+        %p= f.telephone_field :phone, placeholder: "Phone", class: "span3"
+        %p.check_box= f.submit t('addresses.submit'), class: "btn btn-primary"
+  .span3.offset6
+    .row
+      .span3
+        %h3.pull-right Order Summary
+      .span3
+        %p.pull-right ITEM TOTAL: $#{@order.price_without_delivery}
+      .span3
+        %p.pull-right ORDER TOTAL: $#{@order.price_without_delivery}

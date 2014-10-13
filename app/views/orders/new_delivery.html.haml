@@ -1,0 +1,39 @@
+.row
+  .span2
+    %h3=t('orders.checkout')
+  .span9.offset1
+    %ul.breadcrumb.pull-right
+      %li 
+        %h5.blue_text BILLING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.blue_text SHIPPING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.text DELIVERY
+        %span.divider >>
+      %li 
+        PAYMENT
+        %span.divider >>
+      %li 
+        CONFIRM
+        %span.divider >>
+      %li 
+        COMPLETE
+  .span2
+    = form_for @order, url: order_create_delivery_path(@order), method: :patch do |f|
+      %fieldset
+        %legend DELIVERY
+      - @deliveries.each do |delivery|
+        %label.radio
+          = f.radio_button :delivery_id, delivery.id
+          #{delivery.name} + $#{delivery.price}
+      %p.check_box= f.submit t('addresses.submit'), class: "btn btn-primary"
+  .span3.offset7
+    .row
+      .span3
+        %h3.pull-right Order Summary
+      .span3
+        %p.pull-right ITEM TOTAL: $#{@order.price_without_delivery}
+      .span3
+        %p.pull-right ORDER TOTAL: $#{@order.price_without_delivery}

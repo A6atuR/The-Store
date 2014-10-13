@@ -3,7 +3,7 @@ require 'controllers/controllers_spec_helper'
 describe CreditCardsController do
   before do
     @customer = create(:customer)
-    @order = @customer.orders.in_progress.first
+    @order = create(:order)
     allow(controller).to receive(:current_customer) { @customer }
     @credit_card = create(:credit_card)
     redefine_cancan_abilities
@@ -87,8 +87,8 @@ describe CreditCardsController do
         sign_in @customer
       end
 
-      it "redirects to order_confirm_path if address is valid" do
-        post :create, credit_card: attributes_for(:credit_card) 
+      it "redirects to order_confirm_path if credit_card is valid" do
+        post :create, credit_card: {numder: '12344321', cvv: '1111', expiration_date: 'December 01, 2019', customer_id: @customer.id} 
         expect(response).to be_success
       end
 
@@ -125,7 +125,9 @@ describe CreditCardsController do
       
       it "redirects to the order_confirm_path if credit_card is valid" do
         patch :update, id: @credit_card.id, credit_card: attributes_for(:credit_card, cvv: 2222) 
-        response.should redirect_to order_confirm_path(@order) 
+        orders = Order.all
+        order = orders[1] 
+        response.should redirect_to order_confirm_path(order) 
       end
 
       it "re-renders the edit template if credit_card is invalid" do

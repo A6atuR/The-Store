@@ -1,37 +1,34 @@
+- if @order_item.errors.full_messages.any?
+  .alert.alert-error
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    %ul
+      - @order_item.errors.full_messages.each do |message|
+        %li= message
 .row 
   .span12
-    .media
-      %h3.media-heading= @book.title
-      - @book.authors.each do |author|
-        %strong
-          by #{author.first_name} #{author.last_name}
-      .media-body
-        = image_tag(@book.image, size: "200x150", class: "media-object")
+    .row
+      .span3
+        = image_tag(@book.image, size: "270x150", class: "media-object")
+        = button_to "Add review for this book", new_book_rating_path(@book), method: :get, class: "btn btn-info"
+      .span9
+        %h3= @book.title
+        - @book.authors.each do |author|
+          %strong
+            by #{author.first_name} #{author.last_name}
+        %p= @book.description
         %h4
           $ #{@book.price}
         = form_for @order_item, url: order_order_items_path(@order), html: {class: "form-inline"} do |f|
-          = f.text_field :quantity, class: "input-mini"
+          = f.text_field :quantity, value: 1, class: "input-mini"
           = f.hidden_field :book_id, value: @book.id
           = f.submit t('books.submit'), class: "btn btn-primary"
-        %p= @book.description
-
-        
-    %h3=t('books.reviews')
-    = form_for @rating, url: book_ratings_path(@book) do |f|
-      = f.hidden_field :book_id, value: @book.id
-      %p
-        = f.label :rating
-        = f.text_field :rating
-      %p
-        = f.label :review
-        = f.text_area :text
-      %p
-        = f.submit t('ratings.submit')
-    - @ratings.each do |rating|
-      %p
-        Rating: #{rating.rating} by #{rating.customer.email}
-      %p
-        = rating.created_at
-      %p
-        = rating.text
-      %br
+  - if @book.ratings.approved.count == 0
+    .span12
+      %h4 No reviews for this book
+  - else
+    .span12  
+      %h3=t('books.reviews') 
+      - @ratings.each do |rating|
+        .book_rating_content
+          %h4 Rating: #{rating.rating} by #{rating.customer.email}, #{rating.created_at.strftime('%d.%m.%Y')} 
+          %p= rating.text

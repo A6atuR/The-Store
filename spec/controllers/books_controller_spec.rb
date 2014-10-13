@@ -3,7 +3,7 @@ require 'controllers/controllers_spec_helper'
 describe BooksController do
   before do
     @customer = create(:customer)
-    @order = @customer.orders.in_progress.first
+    @order = create(:order)
     allow(controller).to receive(:current_customer) { @customer }
     @book = create(:book)
     redefine_cancan_abilities
@@ -31,7 +31,14 @@ describe BooksController do
         get :index
       end
 
-      it { should redirect_to new_customer_session_path }
+      it "responds successfully with an HTTP 200 status code" do
+        expect(response).to be_success
+        expect(response.status).to eq(200)
+      end
+
+      it "renders the index template" do
+        expect(response).to render_template("index")
+      end
     end
 
     context 'cancan doesnt allow :index' do
@@ -67,7 +74,14 @@ describe BooksController do
         get :show, id: @book.id 
       end
 
-      it { should redirect_to new_customer_session_path }
+      it "responds successfully with an HTTP 200 status code" do
+        expect(response).to be_success
+        expect(response.status).to eq(200)
+      end
+
+      it "renders the #show view" do 
+        response.should render_template :show 
+      end
     end
 
     context 'cancan doesnt allow :show' do

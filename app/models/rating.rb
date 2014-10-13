@@ -1,6 +1,7 @@
 class Rating < ActiveRecord::Base
   belongs_to :book
   belongs_to :customer
+  validates :rating, :text, presence: true
   validates_inclusion_of :rating, in: 1..10
 
   scope :approved, -> { where(status: "approved") }

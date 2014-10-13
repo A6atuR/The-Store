@@ -3,7 +3,7 @@ require 'controllers/controllers_spec_helper'
 describe OrderItemsController do
   before do
     @customer = create(:customer)
-    @order = @customer.orders.in_progress.first
+    @order = create(:order)
     allow(controller).to receive(:current_customer) { @customer }
     @book = create(:book)
     @order_item = create(:order_item)
@@ -27,7 +27,9 @@ describe OrderItemsController do
         post :create, { order_id: @order.id, order_item: attributes_for(:order_item, book_id: @book.id) }
       end
 
-      it { should redirect_to new_customer_session_path }
+      it "redirects to the shopping_cart_path if order_item is valid" do
+        response.should redirect_to shopping_cart_path
+      end
     end
 
     context 'cancan doesnt allow :create' do
@@ -58,7 +60,9 @@ describe OrderItemsController do
         delete :destroy, { order_id: @order.id, id: @order_item.id }
       end
 
-      it { should redirect_to new_customer_session_path }
+      it "redirects to shopping_cart_path" do 
+        expect(response).to redirect_to shopping_cart_path 
+      end
     end
 
     context 'cancan doesnt allow :destroy' do

@@ -3,7 +3,8 @@ require 'controllers/controllers_spec_helper'
 describe CategoriesController do
   before do
     @customer = create(:customer)
-    @category = create(:category) 
+    @category = create(:category)
+    @order = create(:order) 
     redefine_cancan_abilities
   end
 
@@ -29,7 +30,14 @@ describe CategoriesController do
         get :index
       end
 
-      it { should redirect_to new_customer_session_path }
+      it "responds successfully with an HTTP 200 status code" do
+        expect(response).to be_success
+        expect(response.status).to eq(200)
+      end
+
+      it "renders the index template" do
+        expect(response).to render_template("index")
+      end
     end
 
     context 'cancan doesnt allow :index' do
@@ -65,7 +73,14 @@ describe CategoriesController do
         get :show, id: @category.id 
       end
 
-      it { should redirect_to new_customer_session_path }
+      it "responds successfully with an HTTP 200 status code" do 
+        expect(response).to be_success
+        expect(response.status).to eq(200)
+      end
+
+      it "renders the #show view" do 
+        response.should render_template :show 
+      end
     end
 
     context 'cancan doesnt allow :show' do

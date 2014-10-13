@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140930130611) do
+ActiveRecord::Schema.define(version: 20141010095952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,15 @@ ActiveRecord::Schema.define(version: 20140930130611) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "customer_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "address_type", default: "billing"
+    t.boolean  "shipping",     default: false
+  end
+
+  create_table "addresses_orders", id: false, force: true do |t|
+    t.integer "address_id"
+    t.integer "order_id"
   end
 
   create_table "admins", force: true do |t|
@@ -80,14 +89,22 @@ ActiveRecord::Schema.define(version: 20140930130611) do
     t.datetime "updated_at"
   end
 
+  create_table "coupons", force: true do |t|
+    t.integer  "code"
+    t.float    "discount"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "order_id"
+    t.boolean  "used",       default: false
+  end
+
   create_table "credit_cards", force: true do |t|
     t.integer  "number"
     t.integer  "cvv"
-    t.string   "expiration_month"
-    t.integer  "expiration_year"
     t.integer  "customer_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.date     "expiration_date"
   end
 
   create_table "customers", force: true do |t|
@@ -95,12 +112,12 @@ ActiveRecord::Schema.define(version: 20140930130611) do
     t.string   "last_name"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -109,10 +126,18 @@ ActiveRecord::Schema.define(version: 20140930130611) do
     t.string   "nickname"
     t.string   "provider"
     t.string   "url"
+    t.boolean  "confirmation_delete",    default: false
   end
 
   add_index "customers", ["email"], name: "index_customers_on_email", unique: true, using: :btree
   add_index "customers", ["reset_password_token"], name: "index_customers_on_reset_password_token", unique: true, using: :btree
+
+  create_table "deliveries", force: true do |t|
+    t.string   "name"
+    t.float    "price"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "order_items", force: true do |t|
     t.float    "price"
@@ -128,10 +153,10 @@ ActiveRecord::Schema.define(version: 20140930130611) do
     t.string   "state"
     t.datetime "completed_at"
     t.integer  "customer_id"
-    t.integer  "address_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "credit_card_id"
+    t.integer  "delivery_id"
   end
 
   create_table "rails_admin_histories", force: true do |t|

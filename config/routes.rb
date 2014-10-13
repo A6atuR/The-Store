@@ -1,19 +1,40 @@
 Amazon::Application.routes.draw do
   get "omniauth_callbacks/facebook"
-  devise_for :customers, :controllers => { :omniauth_callbacks => "customers/omniauth_callbacks" }
-  resources :customers, :only => [:index, :destroy]
+  devise_for :customers, :controllers => { :omniauth_callbacks => "customers/omniauth_callbacks" }  
+  resources :customers, :only => [:index, :destroy] do
+    collection do
+      patch 'update_password', to: 'registrations#update_password'
+      patch 'update_email', to: 'registrations#update_email'
+      patch 'destroy_account', to: 'registrations#destroy_account'
+      post 'create_billing_address', to: 'registrations#create_billing_address'
+      post 'create_shipping_address', to: 'registrations#create_shipping_address'
+      get 'edit_account', to: 'registrations#edit'
+    end
+  end
   devise_for :admins
   mount RailsAdmin::Engine => '/admin', :as => 'rails_admin'
   root "books#index"
   resources :categories
   resources :books do
-    resources :ratings, only: [:create]
+    resources :ratings, only: [:create, :new]
   end
   resources :orders do
     get 'confirm'
+    delete 'empty_cart'
+    get 'new_delivery'
+    patch 'create_delivery'
+    get 'edit_delivery'
+    patch 'update_delivery'
+    get 'complete'
     resources :order_items
   end
-  resources :addresses
+  resources :addresses do
+    get 'new_shipping', on: :collection
+    post 'create_shipping', on: :collection
+    get 'edit_shipping'
+    patch 'update_shipping'
+    put 'update_shipping'
+  end
   resources :credit_cards
   get 'shopping_cart', to: 'orders#shopping_cart'
 

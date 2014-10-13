@@ -3,7 +3,7 @@ require 'controllers/controllers_spec_helper'
 describe AddressesController do
   before do
     @customer = create(:customer)
-    @order = @customer.orders.in_progress.first
+    @order = create(:order)
     allow(controller).to receive(:current_customer) { @customer }
     @address = create(:address)
     redefine_cancan_abilities
@@ -87,9 +87,10 @@ describe AddressesController do
         sign_in @customer
       end
       
-      it "redirects to the new credit_card_path if address is valid" do
-        post :create, address: attributes_for(:address) 
-        response.should redirect_to new_credit_card_path 
+      it "redirects to the new_shipping_addresses_path if address is valid" do
+        country = create(:country, name: 'England')
+        post :create, address: attributes_for(:address, country_id: country.id)
+        expect(response).to redirect_to(new_shipping_addresses_path)
       end
 
       it "re-renders the new template if address is invalid" do
@@ -129,8 +130,10 @@ describe AddressesController do
       end
 
       it "redirects to the order_confirm_path if address is valid" do
-        patch :update, id: @address.id, address: attributes_for(:address, address: "Street") 
-        response.should redirect_to order_confirm_path(@order) 
+        patch :update, id: @address.id, address: attributes_for(:address, address: "Street")
+        orders = Order.all
+        order = orders[1] 
+        response.should redirect_to order_confirm_path(order) 
       end
     end
 

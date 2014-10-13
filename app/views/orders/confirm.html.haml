@@ -1,42 +1,93 @@
-.container
-  = link_to t('links.home'), books_path
-  = link_to t('links.shop'), categories_path
-  .links
-    = link_to t('links.shopping_cart'), shopping_cart_path
-    = link_to t('links.orders'), orders_path
-    = link_to t('links.settings'), edit_customer_registration_path
-    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
-  %h3=t('orders.checkout')
-  %h3=t('orders.confirm')
-  .confirm_info
-    %strong=t('orders.address') 
-    = link_to t('addresses.edit'), edit_address_path(@address)
-    %p= @address.address
-    %p= @address.city
-    %p= @address.zip_code
-    %p= @address.phone
-  .confirm_info
-    %strong=t('orders.payment_info')
-    = link_to t('credit_cards.edit'), edit_credit_card_path(@credit_card)
-    %p**** **** **** #{@credit_card.cvv}
-    %p= @credit_card.expiration_month
-    %p= @credit_card.expiration_year
-  %table
-    %tr
-      %th=t('order_items.image')
-      %th=t('order_items.book')
-      %th=t('order_items.book_price')
-      %th=t('order_items.quantity')
-      %th=t('order_items.total')
-    - @order.order_items.each do |order_item|
-      %tr
-        %td= image_tag(order_item.book.image, size: "100x75", class: "image")
-        %td.col_title= order_item.book.title
-        %td.col_table $ #{order_item.book.price}
-        %td.col_table= order_item.quantity
-        %td.col_table $ #{order_item.price}
-  .subtotal    
-    %strong=t('orders.subtotal', order: @order.total_price)
-    = form_for @order, url: order_path(@order), method: :patch do |f|
-      %p
-        = f.submit t('orders.submit')
+.row
+  .span2
+    %h3=t('orders.checkout')
+  .span9.offset1
+    %ul.breadcrumb.pull-right
+      %li 
+        %h5.blue_text BILLING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.blue_text SHIPPING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.blue_text DELIVERY
+        %span.divider >>
+      %li 
+        %h5.blue_text PAYMENT
+        %span.divider >>
+      %li 
+        %h5.text CONFIRM
+        %span.divider >>
+      %li 
+        COMPLETE
+  .span12
+    %h4=t('orders.confirm')
+  .span12
+    .row
+      .span3
+        %address
+          %h5 Billing Address
+          = link_to '(Edit)', edit_address_path(@billing_address)
+          %br
+          = @billing_address.address
+          %br
+          = @billing_address.city
+          %br
+          = @billing_address.zip_code
+          %br
+          = @billing_address.phone
+      .span3
+        %address
+          %h5 Shipping Address
+          = link_to '(Edit)', edit_address_path(@shipping_address)
+          %br
+          = @shipping_address.address
+          %br
+          = @shipping_address.city
+          %br
+          = @shipping_address.zip_code
+          %br
+          = @shipping_address.phone
+      .span3
+        %address
+          %h5 Shipments
+          = link_to '(Edit)', order_edit_delivery_path(@order)
+          %br
+          = @delivery.name
+      .span3
+        %address
+          %h5=t('orders.payment_info')
+          = link_to '(Edit)', edit_credit_card_path(@credit_card)
+          %br
+          **** **** **** #{@credit_card.cvv}
+          %br
+          = @credit_card.expiration_date.strftime("%m/%Y")
+      .span12
+        %table.table.table-striped
+          %tr
+            %th.col_image=t('order_items.image')
+            %th.col_book=t('order_items.book')
+            %th.col_price=t('order_items.book_price')
+            %th.col_quantity=t('order_items.quantity')
+            %th.col_total=t('order_items.total')
+          - @order.order_items.each do |order_item|
+            %tr
+              %td= image_tag(order_item.book.image, size: "150x100", class: "image")
+              %td
+                %h4= order_item.book.title
+                %p #{order_item.book.description.first(500)}...
+              %td $ #{order_item.book.price}
+              %td= order_item.quantity
+              %td $ #{order_item.price}
+      .span12.order_price_content
+        .row
+          .span2.offset10
+            %p ITEM TOTAL: $#{@order.price_without_delivery}
+            %p SHIPPING: $#{@order.delivery.price}
+      .span12.order_price_content
+        .row
+          .span2.offset10
+            %p ORDER TOTAL: $#{@order.total_price}
+      .span12      
+        = form_for @order, url: order_path(@order), method: :patch do |f|
+          = f.submit t('orders.submit'), class: "btn btn-primary"

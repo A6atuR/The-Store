@@ -2,8 +2,7 @@ FactoryGirl.define do
   factory :credit_card do
     number Faker::Business.credit_card_number
     cvv 123
-    expiration_month "March"
-    expiration_year 2015
+    expiration_date Faker::Business.credit_card_expiry_date
     customer
   end
 

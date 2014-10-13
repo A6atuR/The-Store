@@ -1,0 +1,86 @@
+.row
+  .span2
+    %h3 Order R#{@order.id}
+  .span9.offset1
+    %ul.breadcrumb.pull-right
+      %li 
+        %h5.blue_text BILLING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.blue_text SHIPPING ADDRESS 
+        %span.divider >>
+      %li 
+        %h5.blue_text DELIVERY
+        %span.divider >>
+      %li 
+        %h5.blue_text PAYMENT
+        %span.divider >>
+      %li 
+        %h5.blue_text CONFIRM
+        %span.divider >>
+      %li 
+        %h5.text COMPLETE
+  .span12
+    .row
+      .span3
+        %address
+          %h5 Billing Address
+          %br
+          = @billing_address.address
+          %br
+          = @billing_address.city
+          %br
+          = @billing_address.zip_code
+          %br
+          = @billing_address.phone
+      .span3
+        %address
+          %h5 Shipping Address
+          %br
+          = @shipping_address.address
+          %br
+          = @shipping_address.city
+          %br
+          = @shipping_address.zip_code
+          %br
+          = @shipping_address.phone
+      .span3
+        %address
+          %h5 Shipments
+          %br
+          = @delivery.name
+      .span3
+        %address
+          %h5=t('orders.payment_info')
+          %br
+          **** **** **** #{@credit_card.cvv}
+          %br
+          = @credit_card.expiration_date.strftime("%m/%Y")
+      .span12
+        %table.table.table-striped
+          %tr
+            %th.col_image=t('order_items.image')
+            %th.col_book=t('order_items.book')
+            %th.col_price=t('order_items.book_price')
+            %th.col_quantity=t('order_items.quantity')
+            %th.col_total=t('order_items.total')
+          - @order.order_items.each do |order_item|
+            %tr
+              %td= image_tag(order_item.book.image, size: "150x100", class: "image")
+              %td
+                %h4= order_item.book.title
+                %p #{order_item.book.description.first(500)}...
+              %td $ #{order_item.book.price}
+              %td= order_item.quantity
+              %td $ #{order_item.price}
+      .span12.order_price_content
+        .row
+          .span2.offset10
+            %p ITEM TOTAL: $#{@order.price_without_delivery}
+            %p SHIPPING: $#{@order.delivery.price}
+      .span12.order_price_content
+        .row
+          .span2.offset10
+            %p ORDER TOTAL: $#{@order.total_price}
+      .span12      
+        = button_to "GO BACK TO STORE", root_url, method: :get, class: "btn btn-info"

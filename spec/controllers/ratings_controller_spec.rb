@@ -3,7 +3,7 @@ require 'controllers/controllers_spec_helper'
 describe RatingsController do
   before do
     @customer = create(:customer)
-    @order = @customer.orders.in_progress.first
+    @order = create(:order)
     allow(controller).to receive(:current_customer) { @customer }
     @book = create(:book)
     redefine_cancan_abilities
