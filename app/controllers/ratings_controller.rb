@@ -1,16 +1,21 @@
 class RatingsController < ApplicationController
   load_and_authorize_resource
+  before_action :authenticate_customer!
+
+  def new
+    @book = Book.find(params[:book_id])
+  end
 
   def create
     @book = Book.find(params[:book_id])
     @books = Book.all
-    @order = current_customer.current_order
     @order_item = @order.order_items.new
     @rating.customer = current_customer
     if @rating.save
-      redirect_to book_path(@book), alert: "Rating successfully created and waiting for review"
+      flash[:success] = "Rating successfully created and waiting for review"
+      redirect_to book_path(@book)
     else
-      redirect_to root_url, alert: "Incorrect data"
+      render 'new'
     end
   end
 

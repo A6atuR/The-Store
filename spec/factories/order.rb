@@ -4,7 +4,7 @@ FactoryGirl.define do
     state "in_progress"
     completed_at nil
     customer
-    address
     credit_card
+    delivery
   end
 end

@@ -3,7 +3,10 @@ require 'features/features_spec_helper'
 feature "Registration" do
   let(:customer) { create(:customer) }
 
-  before { @book = create(:book) }
+  before do
+    @order = create(:order)
+    @book = create(:book)
+  end
 
   scenario "Visitor can sign up successfully as customer" do
     visit new_customer_registration_path
@@ -37,19 +40,13 @@ feature "Registration" do
     expect(page).to have_content I18n.t('devise.sign_up')
   end
 
-  scenario "Customer can change his email or password" do
+  scenario "Customer can change his email" do
     login_as(customer, scope: :customer)
-    visit edit_customer_registration_path
-    within '#edit_customer' do
-      fill_in 'customer_email', with: customer.email
-      fill_in 'customer_password', with: "1234567890"
-      fill_in 'customer_password_confirmation', with: "1234567890"
-      fill_in 'customer_current_password', with: customer.password
-      click_button I18n.t('devise.save')
+    visit edit_account_customers_path
+    within '.email' do
+      fill_in 'customer_email', with: 'test@gmail.com'
+      click_button 'Save'
     end
-    expect(page).not_to have_content I18n.t('devise.remove_account')
-    expect(page).to have_content @book.title
-    expect(page).to have_content @book.description
-    expect(page).to have_content @book.price
+    expect(page).to have_content 'Email has been successfully updated'
   end
 end

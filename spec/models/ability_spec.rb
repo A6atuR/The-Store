@@ -3,7 +3,7 @@ require "cancan/matchers"
 
 describe Customer do
   let(:customer) { create(:customer) }
-  let(:order) { customer.orders.in_progress.first }
+  let(:order) { create(:order) }
   subject(:ability) { Ability.new(customer) }
 
   it { should be_able_to :show, build(:book) }
@@ -22,14 +22,11 @@ describe Customer do
   it { should_not be_able_to :edit, build(:address) }
   it { should be_able_to :create, build(:order_item) }
   it { should be_able_to :destroy, build(:order_item, order_id: order.id) }
-  it { should_not be_able_to :destroy, build(:order_item) }
-  it { should be_able_to :show, build(:order) }
-  it { should be_able_to :index, build(:order) }
+  it { should be_able_to :show, build(:order, customer_id: customer.id) }
+  it { should be_able_to :index, build(:order, customer_id: customer.id) }
   it { should be_able_to :confirm, build(:order) }
   it { should be_able_to :shopping_cart, build(:order) }
   it { should be_able_to :update, build(:order, customer_id: customer.id) }
-  it { should_not be_able_to :update, build(:order) }
   it { should be_able_to :edit, build(:order, customer_id: customer.id) }
-  it { should_not be_able_to :edit, build(:order) }
   it { should be_able_to :create, build(:rating) }
 end

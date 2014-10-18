@@ -1,16 +1,20 @@
-%div.container
-  %div.devise_form
-    %h3 Sign in
-    = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
-      %div
-        = f.label :email
-        = f.email_field :email, :autofocus => true
-      %div
-        = f.label :password
-        = f.password_field :password
-      - if devise_mapping.rememberable?
-        %div
-          = f.check_box :remember_me
-          = f.label :remember_me
-          = f.submit "Sign in"
-    = render "devise/shared/links"
+- if resource.errors.full_messages.any?
+  .alert.alert-error
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    %ul
+      - resource.errors.full_messages.each do |message|
+        %li= message
+.devise_form
+  .for_img
+    = link_to image_tag("facebook.png", :border => 0), customer_omniauth_authorize_path(:facebook)
+    or
+  = form_for(resource, :as => resource_name, :url => session_path(resource_name)) do |f|
+    = f.email_field :email, :autofocus => true, placeholder: "Your email", class: "span3"
+    = f.password_field :password, placeholder: "Password", class: "span3"
+    - if devise_mapping.rememberable?
+      %label.checkbox
+        = f.check_box :remember_me
+        Remember me
+      = f.submit "Sign in", class: "btn btn-primary"
+  Don't have an account?    
+  = link_to t('links.sign_up'), new_customer_registration_path

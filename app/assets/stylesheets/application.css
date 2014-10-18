@@ -23,9 +23,17 @@ img.image {
   padding: 10px 10px 10px 0px;
 }
 
+div.for_img {
+  margin: 0px auto;
+  width: 64px;
+  text-align: center;
+  padding-bottom: 30px;
+  padding-top: 20px;
+}
+
 div.devise_form {
   margin: 0px auto;
-  width: 250px;
+  width: 270px;
 }
 
 div.links {
@@ -54,10 +62,24 @@ td.col_title {
   border-bottom: 1px solid black;
 }
 
-td.col_table {
-  width: 100px;
-  text-align: center;
-  border-bottom: 1px solid black;
+th.col_image {
+  width: 150px;
+}
+
+th.col_price {
+  width: 60px;
+}
+
+th.col_quantity {
+  width: 50px;
+}
+
+th.col_total {
+  width: 70px;
+}
+
+th.col_book {
+  min-width: 300px;
 }
 
 div.subtotal {
@@ -68,3 +90,123 @@ div.confirm_info {
   float: left;
   padding-right: 150px;
 }
+
+.pull-right {
+  float: right !important;
+} 
+
+.media-object {
+  padding-top: 5px;
+  padding-right: 15px;
+  padding-bottom: 10px;
+  float: left;
+}
+
+h3, h4, h5 {
+  display:inline;
+  padding-right: 5px;
+}
+
+strong {
+  display: inline;
+  padding-left: 30px;
+}
+
+.form-inline {
+  display: inline;
+}
+
+h2 {
+  padding-left: 30px;
+  padding-bottom: 10px;
+}
+
+.book_title {
+  padding-top: 10px;
+  text-align: center;
+}
+
+.book_price {
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+ul.category {
+  padding-top: 10px;
+}
+
+ul.breadcrumb {
+  padding-left: 30px;
+  background-color: white;
+}
+
+.book_rating_content {
+  padding-left: -30px;
+  padding-top: 10px;
+  word-wrap: break-word;
+  border-top: dashed 1px black;
+}
+
+.span12 {
+  margin-bottom: 20px;
+}
+
+#button {
+  margin-bottom: 10px;
+}
+
+.text {
+  text-decoration: underline;
+}
+
+.check_box {
+  margin-top: 20px;
+}
+
+.blue_text {
+  color: blue;
+}
+
+.date {
+  width: 133px;
+}
+
+.order_price_content {
+  padding-left: -30px;
+  padding-top: 10px;
+  border-top: dashed 1px black;
+  margin-top: -20px; 
+}
+
+.center {
+  text-align: center;
+}
+
+/*flash*/
+.alert-error {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+    text-align: left;
+ }
+
+.alert-alert {
+    background-color: #f2dede;
+    border-color: #eed3d7;
+    color: #b94a48;
+    text-align: left;
+ }
+
+.alert-success {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+    text-align: left;
+ }
+
+.alert-notice {
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+    color: #468847;
+    text-align: left;
+ }

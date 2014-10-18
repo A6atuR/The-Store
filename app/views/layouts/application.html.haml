@@ -6,7 +6,48 @@
     = javascript_include_tag "application", "data-turbolinks-track" => true
     = csrf_meta_tags
   %body
-    %h2=t('layout.app_title')
-    - flash.each do |name, msg|
-      = content_tag :div, msg, class: name
-    = yield
+    .container
+      .navbar
+        .navbar-inner
+          = link_to t('layout.app_title'), books_path, class: "brand"
+          %ul.nav.pull-left
+            %li.divider-vertical
+            %li
+              = link_to t('links.home'), books_path
+            %li.divider-vertical
+            %li
+              = link_to t('links.shop'), categories_path
+            %li.divider-vertical
+          %ul.nav.pull-right
+            %li.divider-vertical
+            %li
+              %a{:href => shopping_cart_path}
+                %i.icon-shopping-cart
+                =t('links.shopping_cart')
+                - if @order.order_items.count == 0
+                  (empty)
+                -else
+                  (#{@order.order_items.count})
+            %li.divider-vertical
+            - if customer_signed_in?
+              %li
+                = link_to t('links.orders'), orders_path
+              %li.divider-vertical
+              %li
+                = link_to t('links.settings'), edit_account_customers_path
+              %li.divider-vertical
+              %li
+                = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+            - else
+              %li
+                = link_to t('links.sign_up'), new_customer_registration_path
+              %li.divider-vertical
+              %li
+                = link_to t('links.sign_in'), new_customer_session_path
+      - flash.each do |key, value|
+        %div{:class => "alert alert-#{key}"}
+          %a.close{"data-dismiss" => "alert", :href => "#"} ×
+          %ul
+            %li
+              = value
+      = yield

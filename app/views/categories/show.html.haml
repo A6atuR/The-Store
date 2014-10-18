@@ -1,24 +1,24 @@
-.container
-  = link_to t('links.home'), books_path
-  = link_to t('links.shop'), categories_path
-  .links
-    = link_to t('links.shopping_cart'), shopping_cart_path
-    = link_to t('links.orders'), orders_path
-    = link_to t('links.settings'), edit_customer_registration_path
-    = link_to t('links.sign_out'), destroy_customer_session_path, method: :delete
+.row
+  %ul.breadcrumb
+    %li
+      = link_to t('links.home'), books_path
+      %span.divider >>
+    %li
+      = link_to t('links.shop'), categories_path
+      %span.divider >>
+    %li.active= @category.title
   %h2=t('categories.categories', category: @category.title)
-  .books_container
-    - @books.each do |book|
-      .book
-        %p
-          = image_tag(book.image, size: "200x150")
-        %p
-          = link_to book.title, book_path(book)
-        %strong
-          $ #{book.price}
-  %h4=t('categories.shop_by_categories')
-  - @categories.each do |category|
-    %p
-      = link_to category.title, category_path(category)
-  .books_pages  
+  .span10
+    .row
+      - @books.each do |book|
+        .span3
+          = image_tag(book.image, size: "270x150")
+          %p.book_title= link_to book.title, book_path(book) 
+          %p.book_price $ #{book.price}
     = paginate @books
+  .span2 
+    %h4=t('categories.shop_by_categories')
+    %ul.category
+      - @categories.each do |category|
+        %li
+          %p= link_to category.title, category_path(category)

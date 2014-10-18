@@ -1,0 +1,36 @@
+- if @rating.errors.full_messages.any?
+  .alert.alert-error
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    %ul
+      - @rating.errors.full_messages.each do |message|
+        %li= message
+%h3 New review for "#{@book.title}"
+= form_for @rating, url: book_ratings_path(@book), html: {class: "form-horizontal"} do |f|
+  = f.hidden_field :book_id, value: @book.id
+  .control-group
+    = f.label :rating, class: "control-label"
+    .controls
+      %label.radio.inline
+        = f.radio_button :rating, 1
+        1
+      %label.radio.inline
+        = f.radio_button :rating, 2
+        2
+      %label.radio.inline
+        = f.radio_button :rating, 3
+        3
+      %label.radio.inline
+        = f.radio_button :rating, 4
+        4
+      %label.radio.inline
+        = f.radio_button :rating, 5
+        5
+  .control-group
+    = f.label :text, class: "control-label"
+    .controls
+      = f.text_area :text, class: "field span5", rows: 6
+  .control-group
+    .controls
+      = f.submit t('ratings.submit'), class: "btn btn-primary"
+      or
+      = link_to "Cancel", book_path(@book)

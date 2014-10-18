@@ -2,7 +2,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(customer)
-    can :create, Address 
+    can [:create, :new_shipping, :create_shipping], Address 
     can [:update, :edit], Address do |address|
       address.try(:customer) == customer
     end
@@ -11,12 +11,9 @@ class Ability
     can [:update, :edit], CreditCard do |credit_card|
       credit_card.try(:customer) == customer
     end
-    can [:create], OrderItem
-    can [:destroy], OrderItem do |order_item|
-      order_item.order.try(:customer) == customer
-    end
-    can [:index, :show, :shopping_cart, :confirm], Order
-    can [:update, :edit], Order do |order|
+    can [:create, :update, :destroy], OrderItem
+    can [:show, :shopping_cart, :empty_cart, :confirm, :update, :new_delivery, :create_delivery, :edit_delivery, :update_delivery], Order
+    can [:index, :edit, :complete], Order do |order|
       order.try(:customer) == customer
     end
     can :create, Rating

@@ -1,0 +1,71 @@
+- if @billing_address.errors.full_messages.any?
+  .alert.alert-error
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    %ul
+      - @billing_address.errors.full_messages.each do |message|
+        %li= message
+- if @shipping_address.errors.full_messages.any?
+  .alert.alert-error
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    %ul
+      - @shipping_address.errors.full_messages.each do |message|
+        %li= message
+- if @customer.errors.full_messages.any?
+  .alert.alert-error
+    %a.close{"data-dismiss" => "alert", :href => "#"} ×
+    %ul
+      - @customer.errors.full_messages.each do |message|
+        %li= message
+.row
+  .span12
+    %h3 Settings
+  .span12
+    .row
+      .span6
+        = form_for @billing_address, :url => create_billing_address_customers_path do |f|
+          %fieldset
+            %legend BILLING ADDRESS
+            %p= f.text_field :first_name, placeholder: "First name", class: "span3"
+            %p= f.text_field :last_name, placeholder: "Last name", class: "span3"
+            %p= f.text_field :address, placeholder: "Street Address", class: "span3"
+            %p= f.text_field :city, placeholder: "City", class: "span3"
+            %p= f.collection_select :country_id, Country.all, :id, :name, {prompt: "Country"}, {class: "span3"}
+            %p= f.text_field :zip_code, placeholder: "Zip", class: "span1"
+            %p= f.telephone_field :phone, placeholder: "Phone", class: "span3"
+            %p.check_box= f.submit t('devise.save'), class: "btn btn-primary"
+      .span6
+        = form_for @shipping_address, url: create_shipping_address_customers_path do |f|
+          %fieldset
+            %legend SHIPPING ADDRESS
+            %p= f.text_field :first_name, placeholder: "First name", class: "span3"
+            %p= f.text_field :last_name, placeholder: "Last name", class: "span3"
+            %p= f.text_field :address, placeholder: "Street Address", class: "span3"
+            %p= f.text_field :city, placeholder: "City", class: "span3"
+            %p= f.collection_select :country_id, Country.all, :id, :name, {prompt: "Country"}, {class: "span3"}
+            %p= f.text_field :zip_code, placeholder: "Zip", class: "span1"
+            %p= f.telephone_field :phone, placeholder: "Phone", class: "span3"
+            %P= f.hidden_field :address_type, value: "shipping"
+            %p.check_box= f.submit t('devise.save'), class: "btn btn-primary"
+  .span12
+    .row
+      .span6
+        = form_for @customer, :url => update_email_customers_path, html: {class: 'email'} do |f|
+          %fieldset
+            %legend EMAIL
+            %p= f.text_field :email
+            %p= f.submit t('devise.save'), class: "btn btn-primary"
+      .span6
+        = form_for @customer, :url => update_password_customers_path do |f|
+          %fieldset
+            %legend PASSWORD  
+            %p= f.password_field :current_password, placeholder: "Old password"
+            %p= f.password_field :password, placeholder: "New password"
+            %p= f.submit t('devise.save'), class: "btn btn-primary"
+      .span12    
+        = form_for @customer, :url => destroy_account_customers_path do |f|
+          %fieldset
+            %legend REMOVE ACCOUNT
+            %label.checkbox
+              = f.check_box :confirmation_delete
+              I understand that all data will be lost
+            %p.check_box= f.submit "Please remove my account", class: "btn btn-danger"

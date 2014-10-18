@@ -4,6 +4,7 @@ feature "Category" do
   let(:customer) { create(:customer) }
   
   before do
+    @order = create(:order)
     @book = create(:book)
     @category = create(:category)
 
